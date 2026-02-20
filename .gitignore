@@ -1,21 +1,15 @@
-### IDE Specific ###
-.idea/
-*.iml
-out/
-.vscode/
+### IDE Files ###
+**/.idea/
+**/*.iml
+**/*.iws
+**/*.ipr
+**/out/
+**/.vscode/
 
-### Build and Temp Files ###
-wallet-backend/target/
-wallet-backend/bin/
+### Build Folders ###
+**/target/
+**/build/
 
-### System Files ###
-.DS_Store
-Thumbs.db
-
-### Frontend (подготвено за бъдещата папка) ###
-wallet-ui/node_modules/
-wallet-ui/build/
-wallet-ui/.pnp/
-wallet-ui/.pnp.js
-wallet-ui/npm-debug.log*
-wallet-ui/yarn-error.log*
+### OS Specific ###
+**/.DS_Store
+**/Thumbs.db
