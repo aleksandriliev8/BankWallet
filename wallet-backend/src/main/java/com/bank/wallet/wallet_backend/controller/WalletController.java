@@ -5,6 +5,7 @@ import com.bank.wallet.wallet_backend.dto.request.TransferRequest;
 import com.bank.wallet.wallet_backend.dto.request.WithdrawRequestDTO;
 import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.service.WalletService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class WalletController {
     private final WalletService walletService;
 
     @PostMapping("/deposit")
-    public ResponseEntity<WalletResponseDTO> deposit(@RequestBody DepositRequestDTO request) {
+    public ResponseEntity<WalletResponseDTO> deposit(@Valid @RequestBody DepositRequestDTO request) {
         WalletResponseDTO response = walletService.deposit(request);
         return ResponseEntity.ok(response);
     }

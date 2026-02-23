@@ -7,6 +7,7 @@ import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.model.Wallet;
 import com.bank.wallet.wallet_backend.repository.UserRepository;
 import com.bank.wallet.wallet_backend.repository.WalletRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class WalletService {
     private final WalletRepository walletRepository;
-    private final UserRepository userRepository;
 
     @Transactional
     public WalletResponseDTO deposit(DepositRequestDTO depositDto) {
         Wallet wallet = walletRepository.findByUserId(depositDto.userId())
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
         wallet.setBalance(wallet.getBalance() + depositDto.amount());
         Wallet savedWallet = walletRepository.save(wallet);
