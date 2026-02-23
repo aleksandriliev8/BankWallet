@@ -1,6 +1,5 @@
 package com.bank.wallet.wallet_backend.service;
 
-import com.bank.wallet.wallet_backend.dto.request.DepositRequestDTO;
 import com.bank.wallet.wallet_backend.dto.request.UserRegistrationRequestDTO;
 import com.bank.wallet.wallet_backend.dto.response.UserResponseDTO;
 import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
@@ -23,6 +22,14 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO registerUser(UserRegistrationRequestDTO userDto) {
+        if (userRepository.existsByUsername(userDto.username())) {
+            throw new IllegalArgumentException("Username is already taken");
+        }
+
+        if (userRepository.existsByEmail(userDto.email())) {
+            throw new IllegalArgumentException("Email is already registered");
+        }
+
         User user = userMapper.toEntity(userDto);
         User savedUser = userRepository.save(user);
 
