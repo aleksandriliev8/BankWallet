@@ -4,28 +4,23 @@ import com.bank.wallet.wallet_backend.dto.request.UserRegistrationRequestDTO;
 import com.bank.wallet.wallet_backend.dto.response.UserResponseDTO;
 import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.model.User;
-import org.springframework.stereotype.Component;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Component
-public class UserMapper {
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
-    public User toEntity(UserRegistrationRequestDTO userDto) {
-        User user = new User();
-        user.setFirstName(userDto.firstName());
-        user.setLastName(userDto.lastName());
-        user.setUsername(userDto.username());
-        user.setEmail(userDto.email());
-        user.setPassword(userDto.password());
-        user.setAge(userDto.age());
-        return user;
-    }
+    @Mapping(target = "id", source = "user.id")
+    @Mapping(target = "wallet", source = "walletDto")
+    UserResponseDTO toResponse(User user, WalletResponseDTO walletDto);
 
-    public UserResponseDTO toResponse(User user, WalletResponseDTO walletDto) {
-        return new UserResponseDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                walletDto
-        );
-    }
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "firstName", source = "dto.firstName")
+    @Mapping(target = "lastName", source = "dto.lastName")
+    @Mapping(target = "username", source = "dto.username")
+    @Mapping(target = "email", source = "dto.email")
+    @Mapping(target = "password", source = "dto.password")
+    @Mapping(target = "age", source = "dto.age")
+    User toEntity(UserRegistrationRequestDTO dto);
 }

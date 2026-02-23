@@ -1,15 +1,16 @@
 package com.bank.wallet.wallet_backend.service;
 
-import com.bank.wallet.wallet_backend.dto.request.DepositRequestDTO;
 import com.bank.wallet.wallet_backend.dto.request.UserRegistrationRequestDTO;
 import com.bank.wallet.wallet_backend.dto.response.UserResponseDTO;
 import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
+import com.bank.wallet.wallet_backend.enums.Role;
 import com.bank.wallet.wallet_backend.mapper.UserMapper;
 import com.bank.wallet.wallet_backend.model.User;
 import com.bank.wallet.wallet_backend.model.Wallet;
 import com.bank.wallet.wallet_backend.repository.UserRepository;
 import com.bank.wallet.wallet_backend.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,28 @@ public class UserService {
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserResponseDTO registerUser(UserRegistrationRequestDTO userDto) {
+        if (userRepository.existsByUsername(userDto.username())) {
+            throw new IllegalArgumentException("Username is already taken");
+        }
+
+        if (userRepository.existsByEmail(userDto.email())) {
+            throw new IllegalArgumentException("Email is already registered");
+        }
+
         User user = userMapper.toEntity(userDto);
+
+        user.setPassword(passwordEncoder.encode(userDto.password()));
+
+        if (userDto.role() != null) {
+            user.setRole(userDto.role());
+        } else {
+            user.setRole(Role.USER);
+        }
+
         User savedUser = userRepository.save(user);
 
         Wallet wallet = new Wallet();
