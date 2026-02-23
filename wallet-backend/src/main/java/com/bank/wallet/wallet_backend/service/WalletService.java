@@ -1,6 +1,7 @@
 package com.bank.wallet.wallet_backend.service;
 
 import com.bank.wallet.wallet_backend.dto.request.DepositRequestDTO;
+import com.bank.wallet.wallet_backend.dto.request.TransferRequest;
 import com.bank.wallet.wallet_backend.dto.request.WithdrawRequestDTO;
 import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.model.Wallet;
@@ -28,22 +29,45 @@ public class WalletService {
     }
 
     @Transactional
-    public WalletResponseDTO withdraw(WithdrawRequestDTO withdrawData) {
+    public WalletResponseDTO withdraw(WithdrawRequestDTO withdrawDto) {
 
-        if (!userRepository.existsById(withdrawData.userId())) {
-            throw new RuntimeException("User not found with ID: " + withdrawData.userId());
-        }
-
-        Wallet wallet = walletRepository.findByUserId(withdrawData.userId())
+        Wallet wallet = walletRepository.findByUserId(withdrawDto.userId())
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
 
-        if (wallet.getBalance() < withdrawData.amount()) {
+        if (wallet.getBalance() < withdrawDto.amount()) {
             throw new RuntimeException("Insufficient funds. Current balance: " + wallet.getBalance());
         }
 
-        wallet.setBalance(wallet.getBalance() - withdrawData.amount());
+        wallet.setBalance(wallet.getBalance() - withdrawDto.amount());
         Wallet updatedWallet = walletRepository.save(wallet);
 
         return new WalletResponseDTO(updatedWallet.getId(), updatedWallet.getBalance());
+    }
+
+    @Transactional
+    public void transfer(TransferRequest transferDto) {
+        if (transferDto.amount() <= 0) {
+            throw new RuntimeException("Transfer amount must be positive");
+        }
+
+        if (transferDto.fromUserId().equals(transferDto.toUserId())) {
+            throw new RuntimeException("Cannot transfer money to yourself");
+        }
+
+        Wallet sourceWallet = walletRepository.findByUserId(transferDto.fromUserId())
+                .orElseThrow(() -> new RuntimeException("Source wallet not found"));
+
+        Wallet targetWallet = walletRepository.findByUserId(transferDto.toUserId())
+                .orElseThrow(() -> new RuntimeException("Target wallet not found"));
+
+        if (sourceWallet.getBalance() < transferDto.amount()) {
+            throw new RuntimeException("Insufficient funds for transfer");
+        }
+
+        sourceWallet.setBalance(sourceWallet.getBalance() - transferDto.amount());
+        targetWallet.setBalance(targetWallet.getBalance() + transferDto.amount());
+
+        walletRepository.save(sourceWallet);
+        walletRepository.save(targetWallet);
     }
 }
