@@ -23,12 +23,18 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private int age;
 
     @Column(unique = true, nullable = false)
     private String username;
 
+    private int age;
+
     @OneToOne(mappedBy = "user")
     @JsonManagedReference
     private Wallet wallet;
+
+    public void addWallet(Wallet wallet) {
+        this.wallet = wallet;
+        wallet.setUser(this);
+    }
 }
