@@ -1,5 +1,6 @@
 package com.bank.wallet.wallet_backend.dto.request;
 
+import com.bank.wallet.wallet_backend.enums.Role;
 import jakarta.validation.constraints.*;
 
 public record UserRegistrationRequestDTO(
@@ -27,6 +28,7 @@ public record UserRegistrationRequestDTO(
         @NotNull(message = "Age is required")
         @Min(value = 18, message = "You must be at least 18 years old to open a wallet")
         @Max(value = 120, message = "Please enter a valid age")
-        int age
+        int age,
+        Role role
 ) {
 }
