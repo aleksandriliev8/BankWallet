@@ -26,7 +26,7 @@ public class WalletController {
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<WalletResponseDTO> withdraw(@RequestBody WithdrawRequestDTO request) {
+    public ResponseEntity<WalletResponseDTO> withdraw(@Valid @RequestBody WithdrawRequestDTO request) {
         WalletResponseDTO response = walletService.withdraw(request);
         return ResponseEntity.ok(response);
     }

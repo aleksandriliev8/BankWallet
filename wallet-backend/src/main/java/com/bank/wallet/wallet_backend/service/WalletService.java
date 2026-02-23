@@ -32,10 +32,10 @@ public class WalletService {
     public WalletResponseDTO withdraw(WithdrawRequestDTO withdrawDto) {
 
         Wallet wallet = walletRepository.findByUserId(withdrawDto.userId())
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
         if (wallet.getBalance() < withdrawDto.amount()) {
-            throw new RuntimeException("Insufficient funds. Current balance: " + wallet.getBalance());
+            throw new IllegalArgumentException("Insufficient funds. Current balance: " + wallet.getBalance());
         }
 
         wallet.setBalance(wallet.getBalance() - withdrawDto.amount());
