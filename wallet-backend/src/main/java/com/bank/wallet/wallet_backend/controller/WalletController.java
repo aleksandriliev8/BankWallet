@@ -1,7 +1,7 @@
 package com.bank.wallet.wallet_backend.controller;
 
 import com.bank.wallet.wallet_backend.dto.request.DepositRequestDTO;
-import com.bank.wallet.wallet_backend.dto.request.TransferRequest;
+import com.bank.wallet.wallet_backend.dto.request.TransferRequestDTO;
 import com.bank.wallet.wallet_backend.dto.request.WithdrawRequestDTO;
 import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.service.WalletService;
@@ -32,7 +32,7 @@ public class WalletController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<WalletResponseDTO> transfer(@Valid @RequestBody TransferRequest request) {
+    public ResponseEntity<WalletResponseDTO> transfer(@Valid @RequestBody TransferRequestDTO request) {
         WalletResponseDTO response = walletService.transfer(request);
         return ResponseEntity.ok(response);
     }

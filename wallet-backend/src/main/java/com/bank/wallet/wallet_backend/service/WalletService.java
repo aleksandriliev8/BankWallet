@@ -1,11 +1,10 @@
 package com.bank.wallet.wallet_backend.service;
 
 import com.bank.wallet.wallet_backend.dto.request.DepositRequestDTO;
-import com.bank.wallet.wallet_backend.dto.request.TransferRequest;
+import com.bank.wallet.wallet_backend.dto.request.TransferRequestDTO;
 import com.bank.wallet.wallet_backend.dto.request.WithdrawRequestDTO;
 import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.model.Wallet;
-import com.bank.wallet.wallet_backend.repository.UserRepository;
 import com.bank.wallet.wallet_backend.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +44,7 @@ public class WalletService {
     }
 
     @Transactional
-    public WalletResponseDTO transfer(TransferRequest transferDto) {
+    public WalletResponseDTO transfer(TransferRequestDTO transferDto) {
 
         if (transferDto.fromUserId().equals(transferDto.toUserId())) {
             throw new IllegalArgumentException("Cannot transfer money to yourself");

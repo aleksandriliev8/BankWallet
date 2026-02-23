@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.util.UUID;
 
-public record TransferRequest(
+public record TransferRequestDTO(
         @NotNull(message = "Source user ID is required")
         UUID fromUserId,
 
