@@ -5,6 +5,8 @@ import com.bank.wallet.wallet_backend.dto.response.UserResponseDTO;
 import com.bank.wallet.wallet_backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public UserResponseDTO registerUser(@Valid @RequestBody UserRegistrationRequestDTO userDto) {
-        return userService.registerUser(userDto);
+    public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody UserRegistrationRequestDTO userDto) {
+        UserResponseDTO response =  userService.registerUser(userDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

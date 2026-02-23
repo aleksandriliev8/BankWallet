@@ -45,7 +45,7 @@ public class WalletService {
     }
 
     @Transactional
-    public void transfer(TransferRequest transferDto) {
+    public WalletResponseDTO transfer(TransferRequest transferDto) {
         if (transferDto.amount() <= 0) {
             throw new RuntimeException("Transfer amount must be positive");
         }
@@ -69,5 +69,7 @@ public class WalletService {
 
         walletRepository.save(sourceWallet);
         walletRepository.save(targetWallet);
+
+        return new WalletResponseDTO(sourceWallet.getId(), sourceWallet.getBalance());
     }
 }
