@@ -32,7 +32,7 @@ public class WalletController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<WalletResponseDTO> transfer(@RequestBody TransferRequest request) {
+    public ResponseEntity<WalletResponseDTO> transfer(@Valid @RequestBody TransferRequest request) {
         WalletResponseDTO response = walletService.transfer(request);
         return ResponseEntity.ok(response);
     }

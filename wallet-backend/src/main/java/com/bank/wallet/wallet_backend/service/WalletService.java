@@ -46,30 +46,27 @@ public class WalletService {
 
     @Transactional
     public WalletResponseDTO transfer(TransferRequest transferDto) {
-        if (transferDto.amount() <= 0) {
-            throw new RuntimeException("Transfer amount must be positive");
-        }
 
         if (transferDto.fromUserId().equals(transferDto.toUserId())) {
-            throw new RuntimeException("Cannot transfer money to yourself");
+            throw new IllegalArgumentException("Cannot transfer money to yourself");
         }
 
         Wallet sourceWallet = walletRepository.findByUserId(transferDto.fromUserId())
-                .orElseThrow(() -> new RuntimeException("Source wallet not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Source wallet not found"));
 
         Wallet targetWallet = walletRepository.findByUserId(transferDto.toUserId())
-                .orElseThrow(() -> new RuntimeException("Target wallet not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Target wallet not found"));
 
         if (sourceWallet.getBalance() < transferDto.amount()) {
-            throw new RuntimeException("Insufficient funds for transfer");
+            throw new IllegalArgumentException("Insufficient funds for transfer");
         }
 
         sourceWallet.setBalance(sourceWallet.getBalance() - transferDto.amount());
         targetWallet.setBalance(targetWallet.getBalance() + transferDto.amount());
 
-        walletRepository.save(sourceWallet);
         walletRepository.save(targetWallet);
+        Wallet updatedSource = walletRepository.save(sourceWallet);
 
-        return new WalletResponseDTO(sourceWallet.getId(), sourceWallet.getBalance());
+        return new WalletResponseDTO(updatedSource.getId(), updatedSource.getBalance());
     }
 }
