@@ -33,7 +33,7 @@ cd wallet-backend
 ### 2. Run the application
 Ensure you have Java 21 installed. You can run the application directly via your IDE (execute BankWalletApplication.java) or via Maven:
 ```bash
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 The server will start on `http://localhost:8080`.
 
