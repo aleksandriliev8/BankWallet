@@ -1,4 +1,4 @@
-package com.bank.wallet.wallet_backend.dto.wallet.response;
+package com.bank.wallet.wallet_backend.dto.response;
 
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package com.bank.wallet.wallet_backend.controller;
 
-import com.bank.wallet.wallet_backend.dto.user.request.UserRegistrationRequest;
-import com.bank.wallet.wallet_backend.dto.user.response.UserResponseDTO;
+import com.bank.wallet.wallet_backend.dto.request.UserRegistrationRequestDTO;
+import com.bank.wallet.wallet_backend.dto.response.UserResponseDTO;
 import com.bank.wallet.wallet_backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public UserResponseDTO registerUser(@RequestBody UserRegistrationRequest userDto) {
+    public UserResponseDTO registerUser(@RequestBody UserRegistrationRequestDTO userDto) {
         return userService.registerUser(userDto);
     }
 }

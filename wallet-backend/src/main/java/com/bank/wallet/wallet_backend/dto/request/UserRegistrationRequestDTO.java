@@ -1,8 +1,8 @@
-package com.bank.wallet.wallet_backend.dto.user.request;
+package com.bank.wallet.wallet_backend.dto.request;
 
 import java.util.UUID;
 
-public record UserRegistrationRequest(
+public record UserRegistrationRequestDTO(
         UUID id,
         String firstName,
         String lastName,

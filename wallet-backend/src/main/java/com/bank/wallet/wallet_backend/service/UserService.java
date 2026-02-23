@@ -1,8 +1,9 @@
 package com.bank.wallet.wallet_backend.service;
 
-import com.bank.wallet.wallet_backend.dto.user.request.UserRegistrationRequest;
-import com.bank.wallet.wallet_backend.dto.user.response.UserResponseDTO;
-import com.bank.wallet.wallet_backend.dto.wallet.response.WalletResponseDTO;
+import com.bank.wallet.wallet_backend.dto.request.DepositRequestDTO;
+import com.bank.wallet.wallet_backend.dto.request.UserRegistrationRequestDTO;
+import com.bank.wallet.wallet_backend.dto.response.UserResponseDTO;
+import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.mapper.UserMapper;
 import com.bank.wallet.wallet_backend.model.User;
 import com.bank.wallet.wallet_backend.model.Wallet;
@@ -21,7 +22,7 @@ public class UserService {
     private final UserMapper userMapper;
 
     @Transactional
-    public UserResponseDTO registerUser(UserRegistrationRequest userDto) {
+    public UserResponseDTO registerUser(UserRegistrationRequestDTO userDto) {
         User user = userMapper.toEntity(userDto);
         User savedUser = userRepository.save(user);
 

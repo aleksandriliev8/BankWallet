@@ -1,15 +1,15 @@
 package com.bank.wallet.wallet_backend.mapper;
 
-import com.bank.wallet.wallet_backend.dto.user.request.UserRegistrationRequest;
-import com.bank.wallet.wallet_backend.dto.user.response.UserResponseDTO;
-import com.bank.wallet.wallet_backend.dto.wallet.response.WalletResponseDTO;
+import com.bank.wallet.wallet_backend.dto.request.UserRegistrationRequestDTO;
+import com.bank.wallet.wallet_backend.dto.response.UserResponseDTO;
+import com.bank.wallet.wallet_backend.dto.response.WalletResponseDTO;
 import com.bank.wallet.wallet_backend.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public User toEntity(UserRegistrationRequest userDto) {
+    public User toEntity(UserRegistrationRequestDTO userDto) {
         User user = new User();
         user.setFirstName(userDto.firstName());
         user.setLastName(userDto.lastName());
